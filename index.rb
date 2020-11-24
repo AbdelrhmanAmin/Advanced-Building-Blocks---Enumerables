@@ -23,9 +23,15 @@ module Enumerable
       newArr
     end
   def my_all?
+    flag = true
     arr = self.to_a
-    for item in 0..(arr.length-1)
-      p arr[item] == true
+    for i in 0..(arr.length-1)
+      if !block_given?
+        flag = false unless arr[i].nil? != true
+      else
+        flag = false unless yield(arr[i])
+      end
     end
+    flag
   end
 end
