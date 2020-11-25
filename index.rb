@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# inspiration: https://github.com/anapdh/enumerable-methods/blob/development/enumerables.rb
 module Enumerable
   def my_each
     return enum_for unless block_given?
@@ -17,8 +18,8 @@ module Enumerable
     arr = to_a
     (0..(arr.length - 1)).each do |i|
       yield(arr[i], i)
-    end
-    def my_select
+  end
+  def my_select
       return enum_for unless block_given?
 
       newArr = []
@@ -57,5 +58,19 @@ module Enumerable
       end
     end
     false
+  end
+  def my_none?(param = nil)
+    return my_none? { |obj| obj } unless block_given? || !param.nil?
+    my_each do |n|
+      if param.is_a?(Class) && n.is_a?(param)
+        return false
+      elsif !param.class == Regexp && n.to_s.match(param.to_s)
+        return false
+      elsif block_given? && yield(n)
+        return false
+      end
     end
-    end
+    true
+  end 
+
+end
