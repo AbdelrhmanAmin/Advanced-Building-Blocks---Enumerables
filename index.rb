@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# inspiration: https://github.com/anapdh/enumerable-methods/blob/development/enumerables.rb
 module Enumerable
   def my_each
     return enum_for unless block_given?
