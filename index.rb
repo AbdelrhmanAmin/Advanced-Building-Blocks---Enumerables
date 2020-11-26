@@ -93,4 +93,54 @@ module Enumerable
     end
     newArr
   end
+  def my_inject(sum=nil, currentValue=nil)
+    # if the input is range
+    # create a var arr and loop through numbers 
+    # if sum is given then yield and assign the value to sum
+    # if sum is not given then  sum = 0 and yield the block
+    # 
+    if self.is_a?(Range)
+      arr = self.to_a
+      if sum != nil
+        arr.my_each do |num|
+          sum = yield(sum,num)
+        end
+      elsif sum == nil
+        sum = 0
+        arr.my_each do |num|
+          sum = yield(sum,num)
+        end
+      end
+      return sum
+    end
+    if self.is_a?(Array)
+      print self
+    end
+  end
 end
+
+
+
+#  def my_inject(acc = nil #total
+#   , operator = nil) # currentValue
+#         if acc.is_a?(Symbol) #Typeof acc == symbol
+#             operator = acc 
+#             acc = nil
+#         end
+#         is_symbol = operator.is_a?(Symbol) # True / false
+#         raise LocalJumpError if !block_given? && !is_symbol #if no block is given bcuz of yield
+#         is_range = self.kind_of?(Range) # check of a range
+#         my_each_with_index do | n, i | # num, index
+#             if (is_range ? true : i == 0) && acc == nil
+#                 acc = n #give the acc the first num of the range array
+#             else
+#                 if operator != nil && is_symbol # if the current Elem is true and a symbol
+#                     operator = operator.to_proc #turn the elem to a proc
+#                     acc = operator.call(acc, n) # invoke the proc
+#                 else
+#                     acc = yield(acc, n) #if not a symbol then yield the block
+#                 end
+#             end
+#         end
+#         return acc
+#     end
