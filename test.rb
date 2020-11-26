@@ -16,3 +16,11 @@ puts '6.--------my_none--------'
  puts [nil].my_none? #=> true
  puts [nil, false].my_none? #=> true
  puts [nil, false, true].my_none? #=> false
+
+
+ 
+puts '7.--------my_count--------'
+arr = [1, 2, 4, 2]
+puts arr.my_count? #=> 4 arg==nil && !block_given
+puts arr.my_count?(2) #=> 2 arg == n
+puts (arr.my_count? { |x| (x % 2).zero? }) #=> 3 block_given?
