@@ -7,6 +7,14 @@ p ["A", "B", "C"].my_each_with_index { |val, index| puts "Element #{val} is on i
 p [1,2,3,4,5].my_select { |num|  num.even?  }
 p [nil, true, 99].my_all?
 
+puts '5.--------my_any--------'
+puts (%w[ant bear cat].my_any? { |word| word.length >= 3 }) #=> true
+puts (%w[ant bear cat].my_any? { |word| word.length >= 4 }) #=> true
+puts %w[ant bear cat].my_any?(/d/) #=> false
+puts [nil, true, 99].my_any?(Integer) #=> true
+puts [nil, true, 99].my_any? #=> true
+puts [].my_any? #=> false
+
 puts '6.--------my_none--------'
  puts (%w[ant bear cat].my_none? { |word| word.length == 5 }) #=> true
  puts (%w[ant bear cat].my_none? { |word| word.length >= 4 }) #=> false
@@ -17,8 +25,6 @@ puts '6.--------my_none--------'
  puts [nil, false].my_none? #=> true
  puts [nil, false, true].my_none? #=> false
 
-
- 
 puts '7.--------my_count--------'
 arr = [1, 2, 4, 2]
 puts arr.my_count? #=> 4 arg==nil && !block_given
