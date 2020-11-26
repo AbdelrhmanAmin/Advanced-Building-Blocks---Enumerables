@@ -83,5 +83,14 @@ module Enumerable
     end
     counter
   end
-
+  def  my_map(base = nil)
+    return my_map{|obj| obj} unless block_given? || !base.nil?
+    newArr = []
+    if base 
+      my_each {|i| newArr.push(base[i])}
+    elsif block_given?
+      my_each {|i| newArr.push(yield(i))}
+    end
+    newArr
+  end
 end
