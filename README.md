@@ -21,7 +21,7 @@ In this project, I've built my own version of the built-in Ruby’s enumerable m
 - open CMD
 - git clone https://github.com/AbdelrhmanAmin/Advanced-Building-Blocks---Enumerables.git
 - **Make sure Ruby is installed on your computer**
-- in terminal type: ruby bubble_sort.rb
+- in terminal type: ruby index.rb
 
 ## Author
 
