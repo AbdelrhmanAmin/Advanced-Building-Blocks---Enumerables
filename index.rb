@@ -6,7 +6,7 @@ module Enumerable
     (0..(arr.length - 1)).each do |i|
       yield(arr[i])
     end
-    arr
+    self
   end
 
   def my_each_with_index
@@ -16,7 +16,7 @@ module Enumerable
     (0..(arr.length - 1)).each do |i|
       yield(arr[i], i)
     end
-    arr
+    self
   end
 
   def my_select
@@ -34,6 +34,9 @@ module Enumerable
       return false if block_given? && !yield(elem)
       return false if param.is_a?(Class) && !elem.is_a?(param)
       return false if param.instance_of?(Regexp) && !elem.to_s.match(param.to_s)
+      if param.is_a?(Integer) 
+        return false if param != elem
+      end
     end
     true
   end
@@ -43,8 +46,11 @@ module Enumerable
 
     my_each do |n|
       return true if param.is_a?(Class) && n.is_a?(param)
-      return true if !param.class == Regexp && n.to_s.match(param.to_s)
+      return true if param.class == Regexp && n.to_s.match(param.to_s)
       return true if block_given? && yield(n)
+      if param.is_a?(Integer) 
+        return true if param == n
+      end
     end
     false
   end
@@ -54,13 +60,16 @@ module Enumerable
 
     my_each do |n|
       return false if param.is_a?(Class) && n.is_a?(param)
-      return false if !param.class == Regexp && n.to_s.match(param.to_s)
+      return false if param.class == Regexp && n.to_s.match(param.to_s)
       return false if block_given? && yield(n)
+      if param.is_a?(Integer) 
+        return false if param != n
+      end
     end
     true
   end
 
-  def my_count?(param = nil)
+  def my_count(param = nil)
     counter = 0
     return to_a.length if !block_given? && param.nil?
 
@@ -73,7 +82,7 @@ module Enumerable
   end
 
   def my_map(base = nil)
-    return my_map { |obj| obj } unless block_given? || !base.nil?
+    return enum_for unless block_given? || !base.nil?
 
     new_arr = []
     if base
