@@ -34,9 +34,7 @@ module Enumerable
       return false if block_given? && !yield(elem)
       return false if param.is_a?(Class) && !elem.is_a?(param)
       return false if param.instance_of?(Regexp) && !elem.to_s.match(param.to_s)
-      if param.is_a?(Integer) 
-        return false if param != elem
-      end
+      return false if param.is_a?(Integer) && param != elem
     end
     true
   end
@@ -46,11 +44,9 @@ module Enumerable
 
     my_each do |n|
       return true if param.is_a?(Class) && n.is_a?(param)
-      return true if param.class == Regexp && n.to_s.match(param.to_s)
+      return true if param.instance_of?(Regexp) && n.to_s.match(param.to_s)
       return true if block_given? && yield(n)
-      if param.is_a?(Integer) 
-        return true if param == n
-      end
+      return true if param.is_a?(Integer) && param == n
     end
     false
   end
@@ -60,11 +56,9 @@ module Enumerable
 
     my_each do |n|
       return false if param.is_a?(Class) && n.is_a?(param)
-      return false if param.class == Regexp && n.to_s.match(param.to_s)
+      return false if param.instance_of?(Regexp) && n.to_s.match(param.to_s)
       return false if block_given? && yield(n)
-      if param.is_a?(Integer) 
-        return false if param != n
-      end
+      return false if param.is_a?(Integer) && param != n
     end
     true
   end
@@ -95,7 +89,7 @@ module Enumerable
 
   def my_inject(sum = nil, opt = nil)
     if sum.is_a?(Symbol)
-      sum = opt
+      opt = sum
       sum = nil
     end
     flag = opt.is_a?(Symbol)
@@ -103,14 +97,14 @@ module Enumerable
       sum = if index.zero? && sum.nil?
               elem
             elsif !opt.nil? && flag == true
-              opt = opt.to_proc
-              sum = opt.call(sum,elem)
-            else
+              sum = sum.send(opt, elem)
+            elsif block_given?
               sum = yield(sum, elem)
             end
     end
     sum
   end
+
 end
 
 def multiply_els(elemts)
