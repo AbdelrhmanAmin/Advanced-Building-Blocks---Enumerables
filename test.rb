@@ -54,12 +54,14 @@ puts 'my_map_proc'
 my_proc = proc { |i| i * i }
 puts (1..5).my_map(&my_proc)
 
-# puts '8.--------my_inject--------'
-# puts ((1..5).my_inject { |sum, n| sum + n }) #=> 15
-# puts (1..5).my_inject(1) { |product, n| product * n } #=> 120
-# longest = %w[ant bear cat].my_inject do |memo, word|
-#   memo.length > word.length ? memo : word
-# end
+puts '8.--------my_inject--------'
+puts ((1..5).my_inject { |sum, n| sum + n }) #=> 15
+puts (1..5).my_inject(1) { |product, n| product * n } #=> 120
+puts [2,3].my_inject(20, :*) #should return 120
+puts [2,3,4].my_inject(:+) #should return 9 
+longest = %w[ant bear cat].my_inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
 # puts longest #=> "bear"
 
 # puts 'multiply_els'

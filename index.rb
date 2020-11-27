@@ -94,14 +94,19 @@ module Enumerable
   end
 
   def my_inject(sum = nil, opt = nil)
+    if sum.is_a?(Symbol)
+      sum = opt
+      sum = nil
+    end
     flag = opt.is_a?(Symbol)
     my_each_with_index do |elem, index|
       sum = if index.zero? && sum.nil?
               elem
             elsif !opt.nil? && flag == true
-              opt.to_proc(sum, elem)
+              opt = opt.to_proc
+              sum = opt.call(sum,elem)
             else
-              yield(sum, elem)
+              sum = yield(sum, elem)
             end
     end
     sum
