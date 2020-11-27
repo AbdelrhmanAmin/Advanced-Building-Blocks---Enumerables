@@ -50,6 +50,7 @@ module Enumerable
       return true if param.instance_of?(Regexp) && n.to_s.match(param.to_s)
       return true if block_given? && yield(n)
       return true if param.is_a?(Integer) && param == n
+      return true if param.is_a?(String) && param == n
     end
     false
   end
@@ -61,7 +62,8 @@ module Enumerable
       return false if param.is_a?(Class) && n.is_a?(param)
       return false if param.instance_of?(Regexp) && n.to_s.match(param.to_s)
       return false if block_given? && yield(n)
-      return false if param.is_a?(Integer) && param != n
+      return false if param.is_a?(Integer) && param == n
+      return false if param.is_a?(String) && param == n
     end
     true
   end
@@ -91,6 +93,8 @@ module Enumerable
   end
 
   def my_inject(sum = nil, opt = nil)
+    raise LocalJumpError if !block_given? && sum.nil? && opt.nil?
+
     if sum.is_a?(Symbol)
       opt = sum
       sum = nil
