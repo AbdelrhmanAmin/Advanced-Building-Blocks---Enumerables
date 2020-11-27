@@ -1,3 +1,6 @@
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
+
 module Enumerable
   def my_each
     return enum_for unless block_given?
@@ -104,9 +107,11 @@ module Enumerable
     end
     sum
   end
-
 end
 
 def multiply_els(elemts)
   elemts.my_inject { |acc, n| acc * n }
 end
+
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
